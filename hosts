@@ -1,0 +1,28 @@
+# This file is an example of a host file. The host file is used to store Ansible Playbook connections.  The parameters that would be used are as the following.
+# Examples of Connection Parameters
+#    ansible_host: this is the host name or IP address
+#    ansible_port: specifies the port machine for use of SSH
+#    ansible_user: the remote user that will used to connect to. 
+#    ansible_ssh_pass: use this if using a password to ssh
+#    ansible_ssh_private_key_file:  use this if need to use multiple keys that are specific to hosts.
+# All Ansible files should be double checked during development with  ansible-playbook filename.yml --check
+
+
+#creating hosts 
+---
+all: 
+  hosts: 
+    backup_server
+    offsite
+    web-server 
+
+backup-servers: "server1 ansible_host=10.160.40.3 ansible_port=77"
+
+offsite: 
+   server3 ansible_host=10.160.40.1 ansible_port=22 ansible_user=root
+   server4 ansible_host=10.160.40.2 ansible_port=4300 ansible_user=root
+
+web-servers:
+   server5 ansible_host=192.168.0.1 ansible_port=1600
+   server6 ansible_host=192.168.0.2 ansible_port=1800
+
