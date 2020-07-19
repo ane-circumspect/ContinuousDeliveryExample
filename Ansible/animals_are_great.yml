@@ -1,0 +1,46 @@
+---
+  - hosts: all
+    vars:
+      no_eat:
+        cats:
+         american_short_hair:
+           color: various
+           temper: aloof
+           coat: short
+         burmese:
+           color: sable
+           temper: friendly
+           coat: short
+         persian:
+           color: white
+           temper: sneaky
+           coat: thick
+        dogs:
+          beagle:
+            energy: medium
+            color: tri-color
+            size: medium
+          bichon:
+            energy: medium
+            color: white
+            size: small
+        eat:
+          cows:
+            Highland:
+              tastes: yummy
+            Angus:
+              tastes: yummy
+
+tasks:
+  - name: deploy a looping template file
+     template: templates/animals.j2
+     dest: /tmp/animals.j2
+    tags:
+     - create
+  - name: remove the template file
+    file: 
+     dest: /tmp/animals.j2
+     state: absent
+    tags:
+      - destroy
+
