@@ -1,0 +1,8 @@
+#jinja2:lstrip_blocks: True, trim_blocks: True
+### Looping through the template
+{% for groups in hostsvars[inventory_hostname]['group_names'] %}{{group}}{% in not loop.last %}, {% endif %}{% endfor %}
+
+
+Some we eat, some we dont. We like both {% key, value in animals.interitems() %}{{key}}{% if not loop.last %} and {% endif %}{% endfor %}
+
+### Add loops that pull out eat and no eat groups.
