@@ -1,0 +1,78 @@
+---
+# This script will take data from one source location on a machine and move it to another machine
+# The paths displayed are arbitary and should be changed to match how your installation are installed
+# Once complete the data on the home webserver will have a location path for the data to be cloned. This path would be set in the pathL and dest: These are currently left blank so that once I complete this I will add them b# but they would look similar to /opt/directory/something/location
+# Places where #ADD is I need to come back later and add the hostvars or other variable once completed.
+  - name: Clone Data
+    become: no
+    hosts: web-server
+    vars:
+      source: 'webserver1'
+      destination: 'webserver2'
+      clone_data: true
+      ip_type: private_ip
+      admin_pass: ''
+    tasks:
+     - name: get destination parameters
+       block:
+        - name: destination persist location
+            shell: '' #Need to add path information
+            register: destination_webserver
+            when: inventory_hostname in groups [ 'web-server']
+        - set_fact:
+            destination_webserver: "{{destination.webserver.stdout}}"
+            when: server == destination and inventory_hostname in groups['web-server']
+        - debug:
+            msg: "destination webserver: {{ destination_webserver }}"
+            when: webserver == destination
+        - name: get destination ip address #to complete I will have to finish setting up things in a vm or on my AWS instance
+            set_fact:
+            destination_url: "{% for server in groups['webserver'] %} {% if hostvars[host]['server'] == destination %]}{{hostvars[host][ip_type] }}:{{ destination_webserver }}{ % endif %}{ % endfor %}"
+        - debug:
+            msg: "destination_webserver url: {{destination_url}}"
+
+  - name: get source parameters
+      block:
+         - name: get source webserver
+           shell: opt/some/file
+          register: source_webserver
+          when: inventory_hostname in groups [ 'web-server' ]
+        - set_fact:
+            source_location: "{{ source_webserver }}"
+          when: server == source and inventory_hostname in groups['web-server']
+
+    - set_fact:
+        data_source_node: "{{item}}"
+      loop: "{{ groups [ 'Data_Source'}"
+      when: hostvars[item]['web-server'] == source
+
+  - name: compress directory
+      become: yes
+      become_user: admin
+      archive:
+        path: /opt/directory/something/location
+        dest: /opt/directory/something/location.tgz
+      when: inventory_hostname in groups ['Data_Souce'] and web-server == source
+    - debug:
+        msg: "Set fact for {{data_source_node}}"
+
+  - name: move directory to destination
+      become: yes
+      become_user: admin
+      fetch:
+        src: /opt/directory/something/location.tgz
+        dest: "{{someplaybook_dir}}/file/data"
+      when: inventory_hostname in groups ['Data_Source'] and web-server == source
+      debug:
+        msg: "Data is moved"
+
+  - name: Unzip the file
+      become: yes
+      become_user: admin
+      unarchive:
+        src: "{{someplaybook_dir}}/file/data//opt/directory/something/location.tgz"
+        dest: /opt/directory/something/location
+        when: inventory_hostname in groups ['Data_Souce'] and web-server == destination
+      debug:
+        msg: " Data is extracted"
+
