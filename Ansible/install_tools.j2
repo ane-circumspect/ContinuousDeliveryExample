@@ -1,0 +1,4 @@
+#jinja2:lstrip_blocks: True, trim_blocks: True
+
+{{ inventory_hostname }}
+{% for packages in packages %}{{packages}}{% if not loop.last %} , {% endif %}{% endfor %}:
