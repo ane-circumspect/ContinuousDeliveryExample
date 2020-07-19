@@ -3,7 +3,7 @@
 # The paths displayed are arbitary and should be changed to match how your installation are installed
 # Once complete the data on the home webserver will have a location path for the data to be cloned. This path would be set in the pathL and dest: These are currently left blank so that once I complete this I will add them b# but they would look similar to /opt/directory/something/location
 # Places where #ADD is I need to come back later and add the hostvars or other variable once completed.
-  - name: Clone Data
+  - name: clone data
     become: no
     hosts: web-server
     vars:
