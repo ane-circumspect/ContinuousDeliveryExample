@@ -1,0 +1,19 @@
+
+---
+
+  - hosts: all
+    vars: 
+      packages: [ git, vim, wget ]
+    tasks:
+      - name: deploy a template file loop and install
+        template:
+          src: Ansible/templates/install_tools.j2
+          dest: /tmp/install_tools.j2
+        tags: 
+          - create
+       - name: remove templated files
+           file: /tmp/install_tools.j2
+           state: absent
+         tags:
+           - destroy
+
