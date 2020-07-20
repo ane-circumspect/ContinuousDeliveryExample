@@ -17,9 +17,7 @@ Vagrant.configure("2") do |config|
         config.vm.define "centos7n{i} do |centosvm|"
             centosvm.vm.box = "centos/7"
             centosvm.vm.hostname = "centos7n#{i}"
-            centosvm.provision "file", source: "vagrant_support/gateway_fix.sh", destination: "~/gateway_fix.sh"
-            centosvm.provision "files", source: "vagrant_support/ip_addr", destination: "~/ip_addr"
-            centosvm.provision "shell" , inline: "#{$centos_common}"
+            centosvm.vm.forward_port 80 , 8080
          end
      end
 
@@ -29,9 +27,7 @@ Vagrant.configure("2") do |config|
         config.vm.define "ubuntu16n#{i} do |ubuntuvm|"
              ubuntuvm.vm.box = "ubuntu/xenial64"
              ubuntuvm.vm.hostname = "ubuntu16n#{i}"
-             ubuntu.vm.provision "file", source: "vagrant_support/gateway_fix.sh", destination: "~/gateway_fix.sh"
-             ubuntu.vm.provision "file", source: "vagrant_support/ip_addr", destination: "~/ip_addr"
-             ubuntu.vm.provision "shell", inline: "#{$ubuntu_common}"
+             ubuntusvm.vm.forward_port 80 , 8080
           end
 
 
