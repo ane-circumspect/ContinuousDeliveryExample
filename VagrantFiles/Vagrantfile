@@ -19,8 +19,6 @@ Vagrant.configure("2") do |config|
             centosvm.vm.hostname = "centos7n#{i}"
             centosvm.vm.forward_port 80 , 8080
             config.vm.provision "shell", path: "provision.sh"
-         end
-
 
      #Standard Ubuntu 16 / Xenial VMS
      (1..2).each do |i|
@@ -29,8 +27,6 @@ Vagrant.configure("2") do |config|
              ubuntuvm.vm.hostname = "ubuntu16n#{i}"
              ubuntusvm.vm.forward_port 80 , 8080
              config.vm.provision "shell", path: "provision.sh"
-          end
-
 
   # The most common configuration options are documented and commented below.
   # For a complete reference, please see the online documentation at
