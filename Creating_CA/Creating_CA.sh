@@ -42,3 +42,5 @@ ssh-keygen -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa -b 521
 echo -e "Setting up local RSA for Root User"
 
 ssh-keygen -f /root/.ssh/id_rsa -t rsa
+
+exit 0

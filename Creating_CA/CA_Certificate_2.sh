@@ -11,7 +11,7 @@ checkRoot(){
 }
 
 ##  This section will check the existence of files with -P, then &> creates a new file for the standard output or error. Next section takes Yes in many formats
-checkpackages() {
+checkpackages(){
    lst='dialog openssl'
    for items in $lst
    do
