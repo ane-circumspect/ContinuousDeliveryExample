@@ -9,9 +9,21 @@ sudo yum update -y
 
 sudo yum install vim -y
 
+yum groupinstall "Development Tools" -y
+
+sudo apt install build-essential checkinstall zlib1g-dev -y
+
 sudo yum install docker -y
 
 yum install socat -y
+
+yum install git -y
+
+git config --global user.name "ane-circumspect"
+
+git config --global user.email "ane-circumspect@hotmail.com"
+
+git init
 
 curl https://get.acme.sh | sh
 
@@ -19,8 +31,31 @@ sudo service docker start
 
 sudo usermod -a -G docker ec2-user
 
+git config --global --list
 
 
+wget https://www.python.org/ftp/python/3.8.5/Python-3.8.5.tgz
+
+tar xzfv Python-3.8.5.tgz
+
+cd Python-3.8.5
+
+./configure
+
+make
+
+make test
+
+sudo make install 
+
+cd ..
+install python3-pip
+
+sudo easy_install pip==9.0.3
+
+pip install --upgrade pip
+
+pip install --user ansible
 
 
 
