@@ -1,0 +1,58 @@
+---
+
+- name: Configure webservers with nginx
+  hosts: webservers
+  become: True
+  vars:
+    key_file: /etc/nginx/ssl/nginx.key
+    cert_file: /etc/nginx/ssl/nginx.cert
+
+  tasks:
+    - name: install nginx
+      apt: name=ngnix update_cache=yes cache_valid_time=3600
+
+    - name: create directories for ssl certificates
+      file: path=/etc/nginx/ssl state=directory
+
+    - name: copy TLS key
+      copy: src=files/nginx.key dest={{ key_file }} owner=root mode=0600
+      notify: restart nginx
+
+    - name: copy TLS Certification
+      copy: src=files/ngix.crt dest={{ cert_file }}
+      notify: restart nginx
+    
+    - name: copy nginx config file
+      template: src=templates/nginx.conf.j2 dest={{ conf_file }}
+      notify: restart nginx
+
+    - name: enable configuration
+      file: dest=/etc/nginx/site-enabled/default src={{ conf_file }} state=link
+      notify: restart nginx
+
+    - name: copy index.html
+      template: src=/templates/index.html.j2/ dest=/usr/share/nginx/html/index.html
+        mode: 0644
+
+    - name: restart nginx
+      service: name=nginx state=restarted
+   
+  handlers: 
+    - name: restart nginx
+      service: name=nginx state=restarted
+
+ # Generate TLS KEY using acme_certificate model from Ansible. 
+    - name: Let the challenge be validated and retrieve the cert and intermediate certificate
+        acme_certificate:
+          account_key_src: /etc/pki/cert/private/account.key
+          account_email: cathy@sample.com
+          src: /etc/pki/cert/csr/sample.com.csr
+          cert: /etc/httpd/ssl/sample.com.crt
+          fullchain: /etc/httpd/ssl/sample.com-fullchain.crt
+          chain: /etc/httpd/ssl/sample.com-intermediate.crt
+          challenge: dns-01
+          acme_directory: https://acme-v01.api.letsencrypt.org/directory
+          remaining_days: 60
+          data: "{{ sample_com_challange }}"
+        when: sample_com_challange is changed
+       
