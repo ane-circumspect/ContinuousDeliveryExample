@@ -9,6 +9,8 @@
 #2) Using Docker Containers
 #3) Using Kubernetes
 #4) Building Pipelines in Jenkins
+#5) Learning Terraform
+#6) Languages to improve upon Python, Ruby, Go, Yml, and Bash
 
 #The languages I use is primarily is Python. Systems I work in are Linux flavors of Ubuntu and Centos.
 #I typically deal with Site Reliability and CI/CD pipelines. Full coding is not a strong suite but one that I am constantly working on. 
