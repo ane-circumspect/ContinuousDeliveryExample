@@ -117,10 +117,7 @@ if item in inventory:
 else:
     print ("No, We don't have that")
 
-shopping_list = input("What item would you like to add to the shopping list? ")
-print ("Current shopping list")
-print (shopping_list)
+shopping_list = input("What item would you like to add to the shopping list?")
 
+print ('We have added these to the shopping list: ', shopping_list)
 
-
-   
