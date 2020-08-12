@@ -87,6 +87,11 @@ order1.extend(order2)
 print ("New Extended Order 1")
 print(order1)
 print()
+
+pizza = input("Please list toppings you want on your pizza: ")
+size = input("Do you want small, medium or large?: ")
+print ("You ordered a", size, "pizza with these toppings: ", pizza)
+print("\n")
 #Simple Math in Lists
 print ("Math in Lists Example")
 a = [1, 2, 3]
